@@ -1,0 +1,4 @@
+br/com/nca/entities/Categoria.class
+br/com/nca/enums/Prioridade.class
+br/com/nca/AgendaApiApplication.class
+br/com/nca/entities/Tarefa.class
