@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import br.com.nca.entities.Categoria;
 import br.com.nca.factories.ConnectionFactory;
 
+@Component
 public class CategoriaRepository {
 
 	public List<Categoria> findAll() throws Exception {
