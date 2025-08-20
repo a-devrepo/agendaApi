@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import br.com.nca.entities.Categoria;
 import br.com.nca.entities.Tarefa;
 import br.com.nca.enums.Prioridade;
 import br.com.nca.factories.ConnectionFactory;
 
+@Component
 public class TarefaRepository {
 
 	public void insert(Tarefa tarefa) throws Exception {
@@ -22,7 +25,7 @@ public class TarefaRepository {
 				prioridade,
 				finalizado,
 				categoria_id)
-				values(?,?,?,?,?,?,)
+				values(?,?,?,?,?,?)
 				""";
 
 		var connection = ConnectionFactory.getConnection();
