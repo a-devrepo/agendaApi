@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +61,7 @@ public class TarefasController {
 			tarefa.getCategoria().setId(UUID.fromString(request.getCategoriaId()));
 
 			tarefaRepository.insert(tarefa);
-			return ResponseEntity.status(201).body("Tarefa inserida com sucesso!");
+			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception e) {
 			return ResponseEntity
 					.internalServerError()
