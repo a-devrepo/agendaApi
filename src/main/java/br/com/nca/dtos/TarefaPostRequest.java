@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 public class TarefaPostRequest {
 
-	private String nome;
-	private String data;
-	private String prioridade;
-	private String categoriaId;
+  private String nome;
+  private String data;
+  private String prioridade;
+  private String categoriaId;
 }

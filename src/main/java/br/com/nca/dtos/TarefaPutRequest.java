@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class TarefaPutRequest {
 
-	private String nome;
-	private String data;
-	private String prioridade;
-	private String categoriaId;
-	private Boolean finalizada;
+  private String nome;
+  private String data;
+  private String prioridade;
+  private String categoriaId;
+  private Boolean finalizada;
 }
