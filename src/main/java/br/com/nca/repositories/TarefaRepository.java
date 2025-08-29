@@ -94,22 +94,21 @@ public class TarefaRepository {
     var sql =
         """
 				SELECT
-				t.id,
-				t.nome,
-				t.data,
-				t.prioridade,
-				t.finalizado,
-				t.categoria_id,
-				c.nome AS categoria_nome
+				t.id as id_tarefa,
+                t.nome AS nome_tarefa,
+                t.data,
+                t.prioridade,
+                t.finalizado,
+                c.id AS id_categoria,
+                c.nome AS nome_categoria
 				FROM tarefa t
 				INNER JOIN
 				categoria c ON t.categoria_id = c.id
 				WHERE t.data BETWEEN ? AND ?
-				ORDER BY t.data DESC
+				ORDER BY t.data
 				            """;
 
     var connection = ConnectionFactory.getConnection();
-
     var statement = connection.prepareStatement(sql);
 
     statement.setDate(1, java.sql.Date.valueOf(dataMin));
@@ -120,15 +119,15 @@ public class TarefaRepository {
 
     while (resultSet.next()) {
       var tarefa = new Tarefa();
-      tarefa.setId((UUID) resultSet.getObject("id"));
-      tarefa.setNome(resultSet.getString("nome"));
+      tarefa.setId((UUID) resultSet.getObject("id_tarefa"));
+      tarefa.setNome(resultSet.getString("nome_tarefa"));
       tarefa.setData(resultSet.getDate("data").toLocalDate());
       tarefa.setPrioridade(Prioridade.valueOf(resultSet.getString("prioridade")));
       tarefa.setFinalizada(resultSet.getBoolean("finalizado"));
 
       var categoria = new Categoria();
-      categoria.setId((UUID) resultSet.getObject("categoria_id"));
-      categoria.setNome(resultSet.getString("categoria_nome"));
+      categoria.setId((UUID) resultSet.getObject("id_categoria"));
+      categoria.setNome(resultSet.getString("nome_categoria"));
       tarefa.setCategoria(categoria);
 
       lista.add(tarefa);
