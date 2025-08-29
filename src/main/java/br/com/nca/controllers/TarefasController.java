@@ -66,7 +66,7 @@ public class TarefasController {
   @Operation(
       summary = "Atualizar tarefa existente",
       description = "Atualiza os dados de uma tarefa existente no sistema")
-  @PutMapping("/{id}¨")
+  @PutMapping("/{id}")
   public ResponseEntity<?> put(
       @PathVariable(required = true) UUID id, @RequestBody TarefaPutRequest request) {
 
@@ -121,14 +121,12 @@ public class TarefasController {
 
     try {
 
-      // Consultando as tarefas no banco de dados
-      var tarefaRepository = new TarefaRepository();
       var tarefas = tarefaRepository.findAll(dataMin, dataMax);
 
-      // retornando as tarefas
-      return ResponseEntity.status(200).body(tarefas);
+      return ResponseEntity.ok(tarefas);
     } catch (Exception e) {
-      return ResponseEntity.internalServerError().body("Erro ao excluir tarefa: " + e.getMessage());
+      return ResponseEntity.internalServerError()
+          .body("Erro ao consultar tarefas: " + e.getMessage());
     }
   }
 }
