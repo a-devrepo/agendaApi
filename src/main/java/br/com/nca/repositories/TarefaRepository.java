@@ -1,5 +1,7 @@
 package br.com.nca.repositories;
 
+import br.com.nca.dtos.TarefaCategoriaResponse;
+import br.com.nca.dtos.TarefaPrioridadeResponse;
 import br.com.nca.entities.Categoria;
 import br.com.nca.entities.Tarefa;
 import br.com.nca.enums.Prioridade;
@@ -136,5 +138,74 @@ public class TarefaRepository {
     connection.close();
 
     return lista;
+  }
+
+  public List<TarefaPrioridadeResponse> groupByTarefaPrioridade() throws Exception {
+
+    var sql =
+        """
+                  SELECT
+                  COUNT(*) as quantidade_tarefas,
+                  t.prioridade as prioridade
+                  FROM tarefa t
+                  INNER JOIN categoria c
+                  ON t.categoria_id = c.id
+                  GROUP BY t.prioridade
+                              """;
+
+    var connection = ConnectionFactory.getConnection();
+    var statement = connection.prepareStatement(sql);
+
+    var resultSet = statement.executeQuery();
+    var tarefasPrioridadeResponses = new ArrayList<TarefaPrioridadeResponse>();
+
+    while (resultSet.next()) {
+      var tarefaPrioridadeResponse = new TarefaPrioridadeResponse();
+
+      tarefaPrioridadeResponse.setQuantidadeTarefas(
+          Integer.valueOf(resultSet.getString("quantidade_tarefas")));
+      tarefaPrioridadeResponse.setPrioridade(resultSet.getString("prioridade"));
+
+      tarefasPrioridadeResponses.add(tarefaPrioridadeResponse);
+    }
+
+    connection.close();
+
+    return tarefasPrioridadeResponses;
+  }
+
+  public List<TarefaCategoriaResponse> groupByTarefaCategoria() throws Exception {
+
+    var sql =
+        """
+                    SELECT
+                    COUNT(*) as quantidade_tarefas,
+                    c.nome as nome_categoria
+                    FROM tarefa t
+                    INNER JOIN categoria c
+                    ON t.categoria_id = c.id
+                    GROUP BY c.nome
+                                """;
+
+    var connection = ConnectionFactory.getConnection();
+    var statement = connection.prepareStatement(sql);
+
+    var resultSet = statement.executeQuery();
+    var tarefasCategoriaResponses = new ArrayList<TarefaCategoriaResponse>();
+
+    while (resultSet.next()) {
+
+      var tarefaCategoriaResponse = new TarefaCategoriaResponse();
+
+      tarefaCategoriaResponse.setQuantidadeTarefas(
+          Integer.valueOf(resultSet.getString("quantidade_tarefas")));
+      tarefaCategoriaResponse.setNomeCategoria(resultSet.getString("nome_categoria"));
+
+      tarefasCategoriaResponses.add(tarefaCategoriaResponse);
+    }
+
+    connection.close();
+
+    return tarefasCategoriaResponses;
   }
 }
