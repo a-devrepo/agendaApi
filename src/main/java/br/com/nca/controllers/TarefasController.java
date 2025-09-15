@@ -129,4 +129,38 @@ public class TarefasController {
           .body("Erro ao consultar tarefas: " + e.getMessage());
     }
   }
+
+  @Operation(
+      summary = "Quantidade de tarefas por prioridade",
+      description = "Retorna uma lista com a quantidade de tarefas por prioridade")
+  @GetMapping("/groupby-prioridade")
+  public ResponseEntity<?> getTarefaPrioridade() {
+
+    try {
+
+      var tarefasPrioridade = tarefaRepository.groupByTarefaPrioridade();
+
+      return ResponseEntity.ok(tarefasPrioridade);
+    } catch (Exception e) {
+      return ResponseEntity.internalServerError()
+          .body("Erro ao consultar tarefas: " + e.getMessage());
+    }
+  }
+
+  @Operation(
+      summary = "Quantidade de tarefas por categoria",
+      description = "Retorna uma lista com a quantidade de tarefas por categoria")
+  @GetMapping("/groupby-categoria")
+  public ResponseEntity<?> getTarefaCategoria() {
+
+    try {
+
+      var tarefasCategoria = tarefaRepository.groupByTarefaCategoria();
+
+      return ResponseEntity.ok(tarefasCategoria);
+    } catch (Exception e) {
+      return ResponseEntity.internalServerError()
+          .body("Erro ao consultar tarefas: " + e.getMessage());
+    }
+  }
 }
