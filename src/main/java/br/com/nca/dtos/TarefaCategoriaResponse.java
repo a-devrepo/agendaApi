@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 public class TarefaCategoriaResponse {
   private String nomeCategoria;
-  private String quantidadeTarefas;
+  private Integer quantidadeTarefas;
 }

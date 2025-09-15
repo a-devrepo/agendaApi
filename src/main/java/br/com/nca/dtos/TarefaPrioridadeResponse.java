@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class TarefaPrioridadeResponse {
   private String prioridade;
-  private String quantidadeTarefas;
+  private Integer quantidadeTarefas;
 }
