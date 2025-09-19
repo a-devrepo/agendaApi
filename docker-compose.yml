@@ -1,7 +1,25 @@
 services:
-  postgres:
+  projeto-agendaapi-springboot:
+    container_name: agendaapi-springboot
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - agendapostgres-db
+    networks:
+      - agenda-network
+    environment:
+      POSTGRES_DB: bd_apiagenda
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: postgrespassword
+      SPRING_DATASOURCE_URL: jdbc:postgresql://agendapostgres-db:5432/bd_apiagenda
+
+  agendapostgres-db:
     image: postgres:15
-    container_name: agenda_postgres
+    container_name: agenda_postgresdb
     restart: always
     environment:
       POSTGRES_DB: bd_apiagenda
@@ -10,7 +28,13 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - agendapostgresdb_data:/var/lib/postgresql/data
+    networks:
+      - agenda-network
 
 volumes:
-  postgres_data:
+  agendapostgresdb_data:
+
+networks:
+  agenda-network:
+    driver: bridge
