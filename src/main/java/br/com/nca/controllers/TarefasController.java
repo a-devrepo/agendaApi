@@ -1,18 +1,4 @@
- package br.com.nca.controllers;
-
-import java.time.LocalDate;
-import java.util.UUID;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package br.com.nca.controllers;
 
 import br.com.nca.dtos.TarefaPostRequest;
 import br.com.nca.dtos.TarefaPutRequest;
@@ -26,6 +12,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.UUID;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/tarefas")
@@ -46,11 +44,12 @@ public class TarefasController {
       description = "Dados da tarefa a ser criada",
       required = true,
       content = @Content(schema = @Schema(implementation = TarefaPostRequest.class)))
-  public ResponseEntity<?> post(@RequestBody TarefaPostRequest request, HttpServletRequest httpRequest) {
+  public ResponseEntity<?> post(
+      @RequestBody TarefaPostRequest request, HttpServletRequest httpRequest) {
     try {
-        
+
       var usuarioID = (UUID) httpRequest.getAttribute("userId");
-      
+
       var tarefa = new Tarefa();
 
       tarefa.setId(UUID.randomUUID());
@@ -74,10 +73,12 @@ public class TarefasController {
       description = "Atualiza os dados de uma tarefa existente no sistema")
   @PutMapping("/{id}")
   public ResponseEntity<?> put(
-      @PathVariable(required = true) UUID id, @RequestBody TarefaPutRequest request, HttpServletRequest httpRequest) {
+      @PathVariable(required = true) UUID id,
+      @RequestBody TarefaPutRequest request,
+      HttpServletRequest httpRequest) {
 
     try {
-      var usuarioID = (UUID) httpRequest.getAttribute("userId");  
+      var usuarioID = (UUID) httpRequest.getAttribute("userId");
       var tarefa = new Tarefa();
 
       tarefa.setId(id);
@@ -124,7 +125,9 @@ public class TarefasController {
       description = "Retorna uma lista de tarefas cadastradas no sistema, com opções de filtro")
   @GetMapping("/{dataMin}/{dataMax}")
   public ResponseEntity<?> findAll(
-      @PathVariable LocalDate dataMin, @PathVariable LocalDate dataMax, HttpServletRequest httpRequest) {
+      @PathVariable LocalDate dataMin,
+      @PathVariable LocalDate dataMax,
+      HttpServletRequest httpRequest) {
 
     try {
       var usuarioID = (UUID) httpRequest.getAttribute("userId");
