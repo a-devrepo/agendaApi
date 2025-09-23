@@ -68,6 +68,24 @@ public class TarefasController {
     }
   }
 
+  @Operation(summary = "Buscar tarefa", description = "Busca uma tarefa do sistema por ID")
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getByID(@PathVariable UUID id, HttpServletRequest httpRequest) {
+
+    try {
+      var usuarioID = (UUID) httpRequest.getAttribute("userId");
+      var dto = tarefaRepository.findByID(id);
+
+      if (dto != null) {
+        return ResponseEntity.ok(dto);
+      } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+    } catch (Exception e) {
+      return ResponseEntity.internalServerError().body("Erro ao buscar tarefa: " + e.getMessage());
+    }
+  }
+
   @Operation(
       summary = "Atualizar tarefa existente",
       description = "Atualiza os dados de uma tarefa existente no sistema")
