@@ -1,6 +1,7 @@
 package br.com.nca.repositories;
 
 import br.com.nca.dtos.TarefaCategoriaResponse;
+import br.com.nca.dtos.TarefaResponseDTO;
 import br.com.nca.dtos.TarefaPrioridadeResponse;
 import br.com.nca.entities.Categoria;
 import br.com.nca.entities.Tarefa;
@@ -41,6 +42,41 @@ public class TarefaRepository {
     statement.execute();
 
     connection.close();
+  }
+
+  public TarefaResponseDTO findByID(UUID id) throws Exception {
+
+    var sql =
+        """
+                    SELECT *
+                    FROM tarefa t
+                    INNER JOIN categoria c
+                    ON t.categoria_id = c.id
+                    WHERE t.id = ?
+                                """;
+
+    var connection = ConnectionFactory.getConnection();
+    var statement = connection.prepareStatement(sql);
+    statement.setObject(1, id);
+
+    var resultSet = statement.executeQuery();
+    TarefaResponseDTO tarefaPostResponse = null;
+
+    while (resultSet.next()) {
+      tarefaPostResponse =
+          TarefaResponseDTO.builder()
+              .id((UUID) resultSet.getObject("id"))
+              .nome(resultSet.getString("nome"))
+              .data(resultSet.getDate("data").toLocalDate())
+              .prioridade(Prioridade.valueOf(resultSet.getString("prioridade")))
+              .finalizada(resultSet.getBoolean("finalizado"))
+              .categoriaId((UUID) resultSet.getObject("categoria_id"))
+              .build();
+    }
+    
+    connection.close();
+
+    return tarefaPostResponse;
   }
 
   public boolean update(Tarefa tarefa) throws Exception {
