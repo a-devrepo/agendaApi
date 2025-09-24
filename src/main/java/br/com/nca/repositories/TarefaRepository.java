@@ -1,8 +1,8 @@
 package br.com.nca.repositories;
 
 import br.com.nca.dtos.TarefaCategoriaResponse;
-import br.com.nca.dtos.TarefaResponseDTO;
 import br.com.nca.dtos.TarefaPrioridadeResponse;
+import br.com.nca.dtos.TarefaResponseDTO;
 import br.com.nca.entities.Categoria;
 import br.com.nca.entities.Tarefa;
 import br.com.nca.enums.Prioridade;
@@ -73,7 +73,7 @@ public class TarefaRepository {
               .categoriaId((UUID) resultSet.getObject("categoria_id"))
               .build();
     }
-    
+
     connection.close();
 
     return tarefaPostResponse;
